@@ -203,8 +203,8 @@ Camera.prototype.handleStreamRequest = function (request) {
 
     this.log(`Starting video stream (${width}x${height}, ${fps} fps, ${bitrate} kbps)`)
     let ffmpegCommand = `\
--f v4l2 -input_format yuyv422 -s ${width}x${height} -i /dev/video0 \
--c:v h264_omx -b:v 299k -c:a aac -copyts -an -bufsize 299k -payload_type 99 -ssrc ${ssrc} -f rtp \
+-f v4l2 -input_format yuyv422 -s ${width}x${height} -r ${fps} -i /dev/video0 \
+-c:v h264_omx -b:v ${bitrate}000 -c:a aac -copyts -an -bufsize ${bitrate}000 -payload_type 99 -ssrc ${ssrc} -f rtp \
 -srtp_out_suite AES_CM_128_HMAC_SHA1_80 -srtp_out_params ${srtp} \
 srtp://${address}:${port}?rtcpport=${port}&localrtcpport=${port}&pkt_size=1378`
     if (this.debug) {
